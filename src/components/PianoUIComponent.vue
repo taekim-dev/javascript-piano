@@ -1,7 +1,7 @@
 <template>
     <div class="piano-ui">
       <div v-for="(key, index) in keys" :key="index" @click="playKey(key)">
-        {{ key.name }}
+        {{ key.name }} ( {{ key.key }} )
       </div>
     </div>
 </template>
