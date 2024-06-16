@@ -1,9 +1,9 @@
 <template>
     <div class="input-component">
-      <input type="text" v-model="userInput" @input="convertToUpperCase" placeholder="Enter keys (e.g., ASD)" />
-      <div class="play">
-        <button @click="playInput">Play</button>
-        <button @click="stopSounds">Stop</button>
+      <input type="text" class="input-component__input" v-model="userInput" @input="convertToUpperCase" placeholder="Enter keys (e.g., ASD)" />
+      <div class="input-component__controls">
+        <button class="input-component__button input-component__button--play" @click="playInput">Play</button>
+        <button class="input-component__button input-component__button--stop" @click="stopSounds">Stop</button>
       </div>
     </div>
 </template>
@@ -77,21 +77,14 @@ export default {
   }
 };
 </script>
-<style>
-    .input-component {
-      margin: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+<style lang="scss" scoped>
+  .input-component {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-    .play {
-      display: flex;
-      flex-direction: row;
-      gap: 10px;
-    }
-
-    .input-component input {
+    &__input {
       margin-bottom: 10px;
       padding: 5px;
       width: 300px;
@@ -101,7 +94,13 @@ export default {
       text-transform: uppercase;
     }
 
-    .input-component button {
+    &__controls {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+    }
+
+    &__button {
       padding: 10px 20px;
       font-size: 18px;
       color: white;
@@ -111,8 +110,10 @@ export default {
       cursor: pointer;
       margin-top: 5px;
     }
-    .input-component button:hover {
-      background: #1a252f;
+
+    &:hover {
+        background: #1a252f;
     }
+  }
 </style>
   
