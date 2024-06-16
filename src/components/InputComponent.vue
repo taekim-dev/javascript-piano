@@ -1,6 +1,6 @@
 <template>
     <div class="input-component">
-      <input type="text" v-model="userInput" placeholder="Enter keys (e.g., ASD)" />
+      <input type="text" v-model="userInput" @input="convertToUpperCase" placeholder="Enter keys (e.g., ASD)" />
       <button @click="playInput">Play</button>
     </div>
 </template>
@@ -21,6 +21,9 @@ export default {
       };
     },
     methods: {
+      convertToUpperCase(event) {
+        this.userInput = event.target.value.toUpperCase();
+      },
       playInput() {
         const notes = this.userInput.toUpperCase().split('');
         notes.forEach((char, index) => {
