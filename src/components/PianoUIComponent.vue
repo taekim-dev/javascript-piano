@@ -1,5 +1,5 @@
 <template>
-    <div class="piano-ui">
+    <div class="piano-ui__component">
       <div v-for="(key, index) in keys" :key="index" @click="playKey(key)">
         {{ key.name }} ( {{ key.key }} )
       </div>
@@ -50,13 +50,17 @@ export default {
 }
 </script>
   
-<style>
-  .piano-ui div {
+<style lang="scss" scoped>
+  .piano-ui__component div {
     display: inline-block;
     margin: 5px;
     padding: 10px;
     border: 1px solid black;
     cursor: pointer;
+
+    &:hover {
+      box-shadow: 0 0 0 2px #2c3e50;
+    }
   }
 </style>
   

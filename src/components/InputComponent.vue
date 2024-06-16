@@ -110,10 +110,6 @@ export default {
       cursor: pointer;
       margin-top: 5px;
     }
-
-    &:hover {
-        background: #1a252f;
-    }
   }
 </style>
   
