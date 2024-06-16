@@ -7,38 +7,47 @@
 </template>
   
 <script>
-  export default {
-    data() {
-      return {
-        keys: [
-          { name: 'Do', key: 'A', sound: require('@/assets/sounds/do.wav') },
-          { name: 'Re', key: 'S', sound: require('@/assets/sounds/re.wav') },
-          { name: 'Mi', key: 'D', sound: require('@/assets/sounds/mi.wav') },
-          { name: 'Fa', key: 'F', sound: require('@/assets/sounds/fa.wav') },
-          { name: 'So', key: 'G', sound: require('@/assets/sounds/so.wav') },
-          { name: 'La', key: 'H', sound: require('@/assets/sounds/la.wav') },
-        ]
-      };
-    },
-    methods: {
-      playKey(key) {
-        const audio = new Audio(key.sound);
-        audio.play();
-      },
-      handleKeyPress(event) {
-        const key = this.keys.find(k => k.key.toLowerCase() === event.key.toLowerCase());
-        if (key) {
-          this.playKey(key);
-        }
-      }
-    },
-    mounted() {
-        window.addEventListener('keydown', this.handleKeyPress);
-    },
-    beforeUnmount() {
-        window.removeEventListener('keydown', this.handleKeyPress);
+import { ref, onMounted, onUnmounted } from 'vue';
+
+export default {
+  name: 'PianoUIComponent',
+  setup() {
+    const keys = ref([
+      { name: 'Do', key: 'A', sound: require('@/assets/sounds/do.wav') },
+      { name: 'Re', key: 'S', sound: require('@/assets/sounds/re.wav') },
+      { name: 'Mi', key: 'D', sound: require('@/assets/sounds/mi.wav') },
+      { name: 'Fa', key: 'F', sound: require('@/assets/sounds/fa.wav') },
+      { name: 'So', key: 'G', sound: require('@/assets/sounds/so.wav') },
+      { name: 'La', key: 'H', sound: require('@/assets/sounds/la.wav') },
+    ]);
+
+    const playKey = (key) => {
+      const audio = new Audio(key.sound);
+      audio.play();
     }
-  };
+
+    const handleKeyPress = (event) => {
+      const key = keys.value.find(k => k.key.toLowerCase() === event.key.toLowerCase())
+      if (key) {
+        playKey(key);
+      }
+    }
+
+    onMounted(() => {
+      window.addEventListener('keydown', handleKeyPress);
+    })
+
+    onUnmounted(() => {
+      window.removeEventListener('keydown', handleKeyPress);
+    })
+
+    return  {
+      keys,
+      playKey,
+      handleKeyPress
+    }
+  }
+}
 </script>
   
 <style>
