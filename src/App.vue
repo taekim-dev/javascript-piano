@@ -1,13 +1,17 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
+  <div id="app">
+    <PianoUIComponent />
+  </div>
 </template>
 
 <script>
+import PianoUIComponent from './components/PianoUIComponent.vue';
+
 
 export default {
   name: 'App',
   components: {
-    
+    PianoUIComponent
   }
 }
 </script>
