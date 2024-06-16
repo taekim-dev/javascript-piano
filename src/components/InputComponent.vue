@@ -27,12 +27,18 @@ export default {
 
     const playInput = () => {
       const notes = userInput.value.split('');
-      notes.forEach((char, index) => {
+      let currentDelay = 0;
+      notes.forEach((char) => {        
+        if (char === ' ') {
+          currentDelay += 300;
+        }
         if (keyMap[char]) {
           setTimeout(() => {
             const audio = new Audio(keyMap[char].sound);
             audio.play();
-          }, index * 500); // 500 ms delay between sounds
+          }, currentDelay); // 500 ms delay between sounds
+
+          currentDelay += 500;
         }
       });
     };
