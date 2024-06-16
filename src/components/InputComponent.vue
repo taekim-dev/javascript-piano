@@ -6,39 +6,45 @@
 </template>
 
 <script>
+import { ref } from 'vue';
+
 export default {
-    data() {
-      return {
-        userInput: '',
-        keyMap: {
-          'A': { name: 'Do', sound: require('@/assets/sounds/do.wav') },
-          'S': { name: 'Re', sound: require('@/assets/sounds/re.wav') },
-          'D': { name: 'Mi', sound: require('@/assets/sounds/mi.wav') },
-          'F': { name: 'Fa', sound: require('@/assets/sounds/fa.wav') },
-          'G': { name: 'So', sound: require('@/assets/sounds/so.wav') },
-          'H': { name: 'La', sound: require('@/assets/sounds/la.wav') },
+  name: 'InputComponent',
+  setup() {
+    const userInput = ref('');
+    const keyMap = {
+      'A': { name: 'Do', sound: require('@/assets/sounds/do.wav') },
+      'S': { name: 'Re', sound: require('@/assets/sounds/re.wav') },
+      'D': { name: 'Mi', sound: require('@/assets/sounds/mi.wav') },
+      'F': { name: 'Fa', sound: require('@/assets/sounds/fa.wav') },
+      'G': { name: 'So', sound: require('@/assets/sounds/so.wav') },
+      'H': { name: 'La', sound: require('@/assets/sounds/la.wav') },
+    };
+
+    const convertToUpperCase = (event) => {
+      userInput.value = event.target.value.toUpperCase();
+    };
+
+    const playInput = () => {
+      const notes = userInput.value.split('');
+      notes.forEach((char, index) => {
+        if (keyMap[char]) {
+          setTimeout(() => {
+            const audio = new Audio(keyMap[char].sound);
+            audio.play();
+          }, index * 500); // 500 ms delay between sounds
         }
-      };
-    },
-    methods: {
-      convertToUpperCase(event) {
-        this.userInput = event.target.value.toUpperCase();
-      },
-      playInput() {
-        const notes = this.userInput.toUpperCase().split('');
-        notes.forEach((char, index) => {
-          if(this.keyMap[char]) {
-            setTimeout(() => {
-              const audio = new Audio(this.keyMap[char].sound);
-              audio.play();
-            }, index * 500)
-          }
-        })
-      }
-    }
-  };
+      });
+    };
+
+    return {
+      userInput,
+      convertToUpperCase,
+      playInput
+    };
+  }
+};
 </script>
-  
 <style>
     .input-component {
       margin: 20px;
