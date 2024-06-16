@@ -35,20 +35,32 @@ export default {
   
 <style>
     .input-component {
-    margin: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+      margin: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .input-component input {
-    margin-bottom: 10px;
-    padding: 5px;
-    width: 200px;
+      margin-bottom: 10px;
+      padding: 5px;
+      width: 300px;
+      font-size: 18px;
+      border: 2px solid #2c3e50;
+      border-radius: 5px;
     }
 
     .input-component button {
-    padding: 5px 10px;
+      padding: 10px 20px;
+      font-size: 18px;
+      color: white;
+      background-color: #2c3e50;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .input-component button:hover {
+      background: #1a252f;
     }
 </style>
   
