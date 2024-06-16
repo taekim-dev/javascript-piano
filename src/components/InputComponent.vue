@@ -22,12 +22,15 @@ export default {
     },
     methods: {
       playInput() {
-        for (let char of this.userInput.toUpperCase()) {
-          if (this.keyMap[char]) {
-            const audio = new Audio(this.keyMap[char].sound);
-            audio.play();
+        const notes = this.userInput.toUpperCase().split('');
+        notes.forEach((char, index) => {
+          if(this.keyMap[char]) {
+            setTimeout(() => {
+              const audio = new Audio(this.keyMap[char].sound);
+              audio.play();
+            }, index * 500)
           }
-        }
+        })
       }
     }
   };
