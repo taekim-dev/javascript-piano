@@ -22,7 +22,17 @@ export default {
     };
 
     const convertToUpperCase = (event) => {
-      userInput.value = event.target.value.toUpperCase();
+      const input = event.target.value.toUpperCase();
+      const validKeys = Object.keys(keyMap);
+      let filteredInput = '';
+
+      for (let char of input) {
+        if (validKeys.includes(char) || char === ' ') {
+          filteredInput += char;
+        }
+      }
+
+      userInput.value = filteredInput;
     };
 
     const playInput = () => {
