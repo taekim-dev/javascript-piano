@@ -1,17 +1,20 @@
 <template>
   <div id="app">
     <PianoUIComponent />
+    <InputComponent />
   </div>
 </template>
 
 <script>
+import InputComponent from './components/InputComponent.vue';
 import PianoUIComponent from './components/PianoUIComponent.vue';
 
 
 export default {
   name: 'App',
   components: {
-    PianoUIComponent
+    PianoUIComponent,
+    InputComponent
   }
 }
 </script>
