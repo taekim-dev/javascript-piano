@@ -1,7 +1,10 @@
 <template>
     <div class="input-component">
       <input type="text" v-model="userInput" @input="convertToUpperCase" placeholder="Enter keys (e.g., ASD)" />
-      <button @click="playInput">Play</button>
+      <div class="play">
+        <button @click="playInput">Play</button>
+        <button @click="stopSounds">Stop</button>
+      </div>
     </div>
 </template>
 
@@ -12,6 +15,8 @@ export default {
   name: 'InputComponent',
   setup() {
     const userInput = ref('');
+    const playingAudios = ref([]);
+
     const keyMap = {
       'A': { name: 'Do', sound: require('@/assets/sounds/do.wav') },
       'S': { name: 'Re', sound: require('@/assets/sounds/re.wav') },
@@ -38,6 +43,7 @@ export default {
     const playInput = () => {
       const notes = userInput.value.split('');
       let currentDelay = 0;
+
       notes.forEach((char) => {        
         if (char === ' ') {
           currentDelay += 300;
@@ -45,6 +51,7 @@ export default {
         if (keyMap[char]) {
           setTimeout(() => {
             const audio = new Audio(keyMap[char].sound);
+            playingAudios.value.push(audio);
             audio.play();
           }, currentDelay); // 500 ms delay between sounds
 
@@ -53,10 +60,19 @@ export default {
       });
     };
 
+    const stopSounds = () => {
+      playingAudios.value.forEach(audio => {
+        audio.pause();
+        audio.currentTime = 0;
+      });
+      playingAudios.value = [];
+    };
+
     return {
       userInput,
       convertToUpperCase,
-      playInput
+      playInput,
+      stopSounds
     };
   }
 };
@@ -69,6 +85,12 @@ export default {
       align-items: center;
     }
 
+    .play {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+    }
+
     .input-component input {
       margin-bottom: 10px;
       padding: 5px;
@@ -76,6 +98,7 @@ export default {
       font-size: 18px;
       border: 2px solid #2c3e50;
       border-radius: 5px;
+      text-transform: uppercase;
     }
 
     .input-component button {
@@ -86,6 +109,7 @@ export default {
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      margin-top: 5px;
     }
     .input-component button:hover {
       background: #1a252f;
