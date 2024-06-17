@@ -1,11 +1,10 @@
 <template>
-    <div class="input-component">
-      <input type="text" class="input-component__input" v-model="userInput" @input="convertToUpperCase" placeholder="Enter keys (e.g., ASD)" />
-      <div class="input-component__controls">
-        <button class="input-component__button input-component__button--play" @click="playInput">Play</button>
-        <button class="input-component__button input-component__button--stop" @click="stopSounds">Stop</button>
-      </div>
+  <div class="input-component">
+    <input type="text" class="input-component__input" v-model="userInput" @input="convertToUpperCase" placeholder="Enter keys (e.g., ASD)" />
+    <div class="input-component__controls">
+      <button class="input-component__button input-component__button--play" @click="playInput">Play</button>
     </div>
+  </div>
 </template>
 
 <script>
@@ -36,50 +35,33 @@ export default {
           filteredInput += char;
         }
       }
-
       userInput.value = filteredInput;
     };
 
     const playInput = () => {
-      stopSounds();
       const notes = userInput.value.split('');
       let currentDelay = 0;
 
-      notes.forEach((char) => {        
+      notes.forEach((char) => {
         if (char === ' ') {
           currentDelay += 300;
         }
         if (keyMap[char]) {
           const timeout = setTimeout(() => {
-
             const audio = new Audio(keyMap[char].sound);
             audio.play();
             playingAudios.value.push({ audio, timeout });
-
           }, currentDelay);
 
-          currentDelay += 500;  // 500 ms delay between sounds
+          currentDelay += 500;
         }
       });
-      console.log('Playing audios:', playingAudios.value);
-    };
-
-    const stopSounds = () => {
-      console.log('Stopping sounds:', playingAudios.value);
-
-      playingAudios.value.forEach(({audio, timeout}) => {
-        clearTimeout(timeout);
-        audio.pause();
-        audio.currentTime = 0;
-      });
-      playingAudios.value = [];
     };
 
     return {
       userInput,
       convertToUpperCase,
       playInput,
-      stopSounds
     };
   }
 };
