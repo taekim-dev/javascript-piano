@@ -7,7 +7,7 @@
     </div>
   </div>
   <div class="saved_component">
-    <div v-for="(audio, index) in savedAudios" :key="index">{{ index + 1 }} : {{ audio }}</div>
+    <div v-for="(item, index) in savedAudios" :key="index">{{ item.title }} : {{ item.audio }}</div>
   </div>
 </template>
 
@@ -64,9 +64,12 @@ export default {
     };
 
     const saveSounds = () => {
-      savedAudios.value.push(userInput.value);
-      userInput.value = ''
-      console.log(savedAudios.value)
+      const title = prompt('Name the Song');
+      if (title) {
+        savedAudios.value.push({title, audio: userInput.value});
+        userInput.value = ''
+        console.log(savedAudios.value)
+      }
     }
 
     return {
