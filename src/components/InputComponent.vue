@@ -6,6 +6,9 @@
       <button class="input-component__button input-component__button--save" @click="saveSounds">Save</button>
     </div>
   </div>
+  <div class="saved-audios">
+    <div v-for="(audio, index) in savedAudios" :key="index">{{ audio }}</div>
+  </div>
 </template>
 
 <script>
