@@ -3,6 +3,7 @@
     <input type="text" class="input-component__input" v-model="userInput" @input="convertToUpperCase" placeholder="Enter keys (e.g., ASD)" />
     <div class="input-component__controls">
       <button class="input-component__button input-component__button--play" @click="playInput">Play</button>
+      <button class="input-component__button input-component__button--save" @click="saveSounds">Save</button>
     </div>
   </div>
 </template>
@@ -15,6 +16,7 @@ export default {
   setup() {
     const userInput = ref('');
     const playingAudios = ref([]);
+    const savedAudios = ref([]);
 
     const keyMap = {
       'A': { name: 'Do', sound: require('@/assets/sounds/do.wav') },
@@ -58,10 +60,18 @@ export default {
       });
     };
 
+    const saveSounds = () => {
+      savedAudios.value.push(userInput.value);
+      userInput.value = ''
+      console.log(savedAudios.value)
+    }
+
     return {
       userInput,
       convertToUpperCase,
       playInput,
+      saveSounds,
+      savedAudios
     };
   }
 };
