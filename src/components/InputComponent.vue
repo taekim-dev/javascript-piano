@@ -41,6 +41,7 @@ export default {
     };
 
     const playInput = () => {
+      stopSounds();
       const notes = userInput.value.split('');
       let currentDelay = 0;
 
@@ -49,19 +50,25 @@ export default {
           currentDelay += 300;
         }
         if (keyMap[char]) {
-          setTimeout(() => {
-            const audio = new Audio(keyMap[char].sound);
-            playingAudios.value.push(audio);
-            audio.play();
-          }, currentDelay); // 500 ms delay between sounds
+          const timeout = setTimeout(() => {
 
-          currentDelay += 500;
+            const audio = new Audio(keyMap[char].sound);
+            audio.play();
+            playingAudios.value.push({ audio, timeout });
+
+          }, currentDelay);
+
+          currentDelay += 500;  // 500 ms delay between sounds
         }
       });
+      console.log('Playing audios:', playingAudios.value);
     };
 
     const stopSounds = () => {
-      playingAudios.value.forEach(audio => {
+      console.log('Stopping sounds:', playingAudios.value);
+
+      playingAudios.value.forEach(({audio, timeout}) => {
+        clearTimeout(timeout);
         audio.pause();
         audio.currentTime = 0;
       });
