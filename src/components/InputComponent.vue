@@ -17,6 +17,7 @@
 
 <script>
 import { ref } from 'vue';
+import { playNotes } from './utils/soundPlayer';
 
 export default {
   name: 'InputComponent',
@@ -47,34 +48,15 @@ export default {
       userInput.value = filteredInput;
     };
 
-    const playNotes = (notes) => {
-      let currentDelay = 0;
-
-      notes.forEach((char) => {
-        if (char === ' ') {
-          currentDelay += 300;
-        }
-        if (keyMap[char]) {
-          const timeout = setTimeout(() => {
-            const audio = new Audio(keyMap[char].sound);
-            audio.play();
-            playingAudios.value.push({ audio, timeout });
-          }, currentDelay);
-
-          currentDelay += 500;
-        }
-      });
-    };
-
     const playInput = (input) => {
       const notes = input.value.split('');
-      playNotes(notes);
+      playNotes(notes, keyMap, playingAudios);
     };
 
     const playSavedSound = (index) => {
       const savedAudioInput = savedAudios.value[index];
       const notes = savedAudioInput.audio.split('');
-      playNotes(notes);
+      playNotes(notes, keyMap, playingAudios);
     }
     const saveSounds = () => {
       const title = prompt('Name the Song');
