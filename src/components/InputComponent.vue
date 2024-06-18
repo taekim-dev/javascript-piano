@@ -6,8 +6,11 @@
       <button class="input-component__button input-component__button--save" @click="saveSounds">Save</button>
     </div>
   </div>
-  <div class="saved_component">
-    <div v-for="(item, index) in savedAudios" :key="index">{{ item.title }} : {{ item.audio }}</div>
+  <div class="save-component">
+    <div v-for="(item, index) in savedAudios" :key="index">
+      {{ item.title }} : {{ item.audio }}
+      <button class="save-component__button save-component__button--play" @click="playSavedSound(index)">▶️</button>
+    </div>
   </div>
 </template>
 
@@ -18,6 +21,7 @@ export default {
   name: 'InputComponent',
   setup() {
     const userInput = ref('');
+    const savedInput = ref('');
     const playingAudios = ref([]);
     const savedAudios = ref([]);
 
@@ -63,12 +67,16 @@ export default {
       });
     };
 
+    const playSavedSound = (index) => {
+      const savedAudioInput = savedAudios.value[index];
+      savedInput.value = savedAudioInput.audio;
+      console.log(savedInput.value);
+    }
     const saveSounds = () => {
       const title = prompt('Name the Song');
       if (title) {
         savedAudios.value.push({title, audio: userInput.value});
         userInput.value = ''
-        console.log(savedAudios.value)
       }
     }
 
@@ -76,6 +84,8 @@ export default {
       userInput,
       convertToUpperCase,
       playInput,
+      savedInput,
+      playSavedSound,
       saveSounds,
       savedAudios
     };
@@ -116,11 +126,21 @@ export default {
       margin-top: 5px;
     }
   }
-  .saved_component {
+  .save-component {
     margin: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    &__button {
+      padding: 10px 20px;
+      font-size: 20px;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-left: 15px;
+    }
   }
 </style>
   
