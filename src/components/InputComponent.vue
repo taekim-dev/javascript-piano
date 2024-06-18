@@ -127,19 +127,17 @@ export default {
     }
   }
   .save-component {
+    font-size: 22px;
     margin: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
 
     &__button {
-      padding: 10px 20px;
-      font-size: 20px;
-      color: white;
+      font-size: 22px;
       border: none;
-      border-radius: 5px;
       cursor: pointer;
-      margin-left: 15px;
+      background: none;
     }
   }
 </style>
