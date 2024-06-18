@@ -2,7 +2,7 @@
   <div class="input-component">
     <input type="text" class="input-component__input" v-model="userInput" @input="convertToUpperCase" placeholder="Enter keys (e.g., ASD)" />
     <div class="input-component__controls">
-      <button class="input-component__button input-component__button--play" @click="playInput">Play</button>
+      <button class="input-component__button input-component__button--play" @click="playInput(userInput)">Play</button>
       <button class="input-component__button input-component__button--save" @click="saveSounds">Save</button>
     </div>
   </div>
@@ -47,8 +47,8 @@ export default {
       userInput.value = filteredInput;
     };
 
-    const playInput = () => {
-      const notes = userInput.value.split('');
+    const playInput = (input) => {
+      const notes = input.value.split('');
       let currentDelay = 0;
 
       notes.forEach((char) => {
@@ -70,7 +70,7 @@ export default {
     const playSavedSound = (index) => {
       const savedAudioInput = savedAudios.value[index];
       savedInput.value = savedAudioInput.audio;
-      console.log(savedInput.value);
+      playInput(savedInput);
     }
     const saveSounds = () => {
       const title = prompt('Name the Song');
