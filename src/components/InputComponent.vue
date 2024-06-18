@@ -7,8 +7,9 @@
     </div>
   </div>
   <div class="save-component">
-    <div v-for="(item, index) in savedAudios" :key="index">
-      {{ item.title }} : {{ item.audio }}
+    <div v-for="(item, index) in savedAudios" :key="index" class="save-component__item">
+      <div class="save-component__title">{{ item.title }}</div>
+      <div class="save-component__audio">{{ formatAudio(item.audio) }}</div>
       <button class="save-component__button save-component__button--play" @click="playSavedSound(index)">▶️</button>
     </div>
   </div>
@@ -83,13 +84,18 @@ export default {
       }
     }
 
+    const formatAudio = (audio) => {
+      return audio.split('').join(' ');
+    };
+
     return {
       userInput,
       convertToUpperCase,
       playInput,
       playSavedSound,
       saveSounds,
-      savedAudios
+      savedAudios,
+      formatAudio
     };
   }
 };
@@ -129,11 +135,27 @@ export default {
     }
   }
   .save-component {
-    font-size: 22px;
-    margin: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  font-size: 22px;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+    &__item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    &__title {
+      font-weight: bold;
+      margin-right: 10px;
+    }
+
+    &__audio {
+      font-family: 'Courier New', Courier, monospace;
+      margin-right: 10px;
+    }
 
     &__button {
       font-size: 22px;
