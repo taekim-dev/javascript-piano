@@ -21,7 +21,6 @@ export default {
   name: 'InputComponent',
   setup() {
     const userInput = ref('');
-    const savedInput = ref('');
     const playingAudios = ref([]);
     const savedAudios = ref([]);
 
@@ -47,8 +46,7 @@ export default {
       userInput.value = filteredInput;
     };
 
-    const playInput = (input) => {
-      const notes = input.value.split('');
+    const playNotes = (notes) => {
       let currentDelay = 0;
 
       notes.forEach((char) => {
@@ -67,10 +65,15 @@ export default {
       });
     };
 
+    const playInput = (input) => {
+      const notes = input.value.split('');
+      playNotes(notes);
+    };
+
     const playSavedSound = (index) => {
       const savedAudioInput = savedAudios.value[index];
-      savedInput.value = savedAudioInput.audio;
-      playInput(savedInput);
+      const notes = savedAudioInput.audio.split('');
+      playNotes(notes);
     }
     const saveSounds = () => {
       const title = prompt('Name the Song');
@@ -84,7 +87,6 @@ export default {
       userInput,
       convertToUpperCase,
       playInput,
-      savedInput,
       playSavedSound,
       saveSounds,
       savedAudios
