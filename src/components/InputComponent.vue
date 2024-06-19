@@ -55,7 +55,7 @@ export default {
 
     const playSavedSound = (index) => {
       const savedAudioInput = savedAudios.value[index];
-      const notes = savedAudioInput.audio.split('');
+      const notes = savedAudioInput.input.split('');
       playNotes(notes, keyMap, playingAudios.value);
     }
     const saveSounds = () => {
@@ -63,8 +63,7 @@ export default {
       if (title) {
         const input = userInput.value;
         const keys = extractKeys(input, keyMap)
-        savedAudios.value.push({title, audio: input, keys: keys});
-        console.log(savedAudios);
+        savedAudios.value.push({title, input: input, keys: keys});
         userInput.value = ''
       }
     }
