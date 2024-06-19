@@ -12,11 +12,14 @@
       <div class="save-component__audio">{{ item.keys }}</div>
       <button class="save-component__button save-component__button--play" @click="playSavedSound(index)">▶️</button>
     </div>
+    <div v-if="hasSavedAudios">
+      <button class="save-component__button save-component__button--clear" @click="clearSounds">Clear</button>
+    </div>
   </div>
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { playNotes } from './utils/soundPlayer';
 
 export default {
@@ -74,6 +77,11 @@ export default {
       }
     }
 
+    const clearSounds = () => {
+      localStorage.removeItem('savedAudios')
+      savedAudios.value = [];
+    }
+
     const formatAudio = (audio) => {
       return audio.split('').join(' ');
     };
@@ -85,9 +93,10 @@ export default {
       return input.split('').map(char => keyMap[char] ? keyMap[char].name : '').join(' ');
     }
 
+    const hasSavedAudios = computed(() => savedAudios.value.length > 0);
+
     onMounted(() => {
       const savedAudiosFromStorage = localStorage.getItem('savedAudios');
-      console.log(savedAudiosFromStorage)
       if (savedAudiosFromStorage) {
         savedAudios.value = JSON.parse(savedAudiosFromStorage);
       }
@@ -99,8 +108,10 @@ export default {
       playInput,
       playSavedSound,
       saveSounds,
+      clearSounds,
       savedAudios,
-      formatAudio
+      formatAudio,
+      hasSavedAudios
     };
   }
 };
@@ -140,34 +151,34 @@ export default {
     }
   }
   .save-component {
-  font-size: 22px;
-  margin: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    font-size: 22px;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-    &__item {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-    }
+      &__item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
 
-    &__title {
-      font-weight: bold;
-      margin-right: 10px;
-    }
+      &__title {
+        font-weight: bold;
+        margin-right: 10px;
+      }
 
-    &__audio {
-      font-family: 'Courier New', Courier, monospace;
-      margin-right: 10px;
-    }
+      &__audio {
+        font-family: 'Courier New', Courier, monospace;
+        margin-right: 10px;
+      }
 
-    &__button {
-      font-size: 22px;
-      border: none;
-      cursor: pointer;
-      background: none;
-    }
+      &__button {
+        font-size: 22px;
+        border: none;
+        cursor: pointer;
+        background: none;
+      }
   }
 </style>
   
