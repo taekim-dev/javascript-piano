@@ -9,7 +9,7 @@
   <div class="save-component">
     <div v-for="(item, index) in savedAudios" :key="index" class="save-component__item">
       <div class="save-component__title">{{ item.title }}</div>
-      <div class="save-component__audio">{{ formatAudio(item.audio) }}</div>
+      <div class="save-component__audio">{{ item.keys }}</div>
       <button class="save-component__button save-component__button--play" @click="playSavedSound(index)">▶️</button>
     </div>
   </div>
@@ -61,7 +61,10 @@ export default {
     const saveSounds = () => {
       const title = prompt('Name the Song');
       if (title) {
-        savedAudios.value.push({title, audio: userInput.value});
+        const input = userInput.value;
+        const keys = extractKeys(input, keyMap)
+        savedAudios.value.push({title, audio: input, keys: keys});
+        console.log(savedAudios);
         userInput.value = ''
       }
     }
@@ -69,6 +72,13 @@ export default {
     const formatAudio = (audio) => {
       return audio.split('').join(' ');
     };
+
+    const extractKeys = (input, keyMap) => {
+      if (!input || typeof input !== 'string') {
+        throw new Error('Invalid input');
+      }
+      return input.split('').map(char => keyMap[char] ? keyMap[char].name : '').join(' ');
+    }
 
     return {
       userInput,
