@@ -25,6 +25,7 @@ export default {
     const userInput = ref('');
     const playingAudios = ref([]);
     const savedAudios = ref([]);
+    const SAVE_LIMIT = 10;
 
     const keyMap = {
       'A': { name: 'Do', sound: require('@/assets/sounds/do.wav') },
@@ -63,7 +64,10 @@ export default {
       if (title) {
         const input = userInput.value;
         const keys = extractKeys(input, keyMap)
-        savedAudios.value.push({title, input: input, keys: keys});
+        if (savedAudios.value.length >= SAVE_LIMIT) {
+          savedAudios.value.shift()
+        }
+        savedAudios.value = [...savedAudios.value, {title, input: input, keys: keys}]
         userInput.value = ''
       }
     }
