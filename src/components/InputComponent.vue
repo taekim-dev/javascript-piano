@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { playNotes } from './utils/soundPlayer';
 
 export default {
@@ -67,8 +67,10 @@ export default {
         if (savedAudios.value.length >= SAVE_LIMIT) {
           savedAudios.value.shift()
         }
-        savedAudios.value = [...savedAudios.value, {title, input: input, keys: keys}]
-        userInput.value = ''
+        const newSavedAudios = [...savedAudios.value, { title, input, keys }];
+        savedAudios.value = newSavedAudios;
+        localStorage.setItem('savedAudios', JSON.stringify(newSavedAudios));
+        userInput.value = '';
       }
     }
 
@@ -82,6 +84,14 @@ export default {
       }
       return input.split('').map(char => keyMap[char] ? keyMap[char].name : '').join(' ');
     }
+
+    onMounted(() => {
+      const savedAudiosFromStorage = localStorage.getItem('savedAudios');
+      console.log(savedAudiosFromStorage)
+      if (savedAudiosFromStorage) {
+        savedAudios.value = JSON.parse(savedAudiosFromStorage);
+      }
+    });
 
     return {
       userInput,
