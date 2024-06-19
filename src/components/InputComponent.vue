@@ -49,14 +49,14 @@ export default {
     };
 
     const playInput = (input) => {
-      const notes = input.value.split('');
-      playNotes(notes, keyMap, playingAudios);
+      const notes = input.split('');
+      playNotes(notes, keyMap, playingAudios.value);
     };
 
     const playSavedSound = (index) => {
       const savedAudioInput = savedAudios.value[index];
       const notes = savedAudioInput.audio.split('');
-      playNotes(notes, keyMap, playingAudios);
+      playNotes(notes, keyMap, playingAudios.value);
     }
     const saveSounds = () => {
       const title = prompt('Name the Song');
