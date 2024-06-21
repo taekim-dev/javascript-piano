@@ -7,14 +7,14 @@
 </template>
   
 <script>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { onMounted, onUnmounted } from 'vue';
 import { useKeyStore } from '@/stores/key';
 
 export default {
   name: 'PianoUIComponent',
   setup() {
     const keyStore = useKeyStore();
-    const keys = ref(keyStore.keys);
+    const keys = keyStore.keys;
 
     const playKey = (key) => {
       const audio = new Audio(key.sound);
@@ -22,7 +22,7 @@ export default {
     }
 
     const handleKeyPress = (event) => {
-      const key = keys.value.find(k => k.key.toLowerCase() === event.key.toLowerCase())
+      const key = keys.find(k => k.key.toLowerCase() === event.key.toLowerCase())
       if (key) {
         playKey(key);
       }
