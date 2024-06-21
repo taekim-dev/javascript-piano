@@ -1,7 +1,7 @@
 <template>
     <div class="piano-ui__component">
-      <div v-for="(key, index) in keys" :key="index" @click="playKey(key)">
-        {{ key.name }} ( {{ key.key }} )
+      <div v-for="(note, index) in notes" :key="index" @click="playKey(note)">
+        {{ note.name }} ( {{ note.key }} )
       </div>
     </div>
 </template>
@@ -14,9 +14,8 @@ export default {
   name: 'PianoUIComponent',
   setup() {
     const keyStore = useKeyStore();
-    // const keys = keyStore.keys;
     const keyMap = keyStore.keyMap;
-    const keys = computed(() => {
+    const notes = computed(() => {
       return Object.entries(keyStore.keyMap).map(([key, value]) => ({
         key,
         name: value.name,
@@ -45,7 +44,7 @@ export default {
     })
 
     return  {
-      keys,
+      notes,
       playKey,
       handleKeyPress
     }
