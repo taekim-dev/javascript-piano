@@ -8,18 +8,13 @@
   
 <script>
 import { ref, onMounted, onUnmounted } from 'vue';
+import { useKeyStore } from '@/stores/key';
 
 export default {
   name: 'PianoUIComponent',
   setup() {
-    const keys = ref([
-      { name: 'Do', key: 'A', sound: require('@/assets/sounds/do.wav') },
-      { name: 'Re', key: 'S', sound: require('@/assets/sounds/re.wav') },
-      { name: 'Mi', key: 'D', sound: require('@/assets/sounds/mi.wav') },
-      { name: 'Fa', key: 'F', sound: require('@/assets/sounds/fa.wav') },
-      { name: 'So', key: 'G', sound: require('@/assets/sounds/so.wav') },
-      { name: 'La', key: 'H', sound: require('@/assets/sounds/la.wav') },
-    ]);
+    const keyStore = useKeyStore();
+    const keys = ref(keyStore.keys);
 
     const playKey = (key) => {
       const audio = new Audio(key.sound);
