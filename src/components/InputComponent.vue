@@ -21,6 +21,7 @@
 <script>
 import { ref, onMounted, computed } from 'vue';
 import { playNotes } from './utils/soundPlayer';
+import { useKeyStore } from '@/stores/key';
 
 export default {
   name: 'InputComponent',
@@ -30,14 +31,8 @@ export default {
     const savedAudios = ref([]);
     const SAVE_LIMIT = 10;
 
-    const keyMap = {
-      'A': { name: 'Do', sound: require('@/assets/sounds/do.wav') },
-      'S': { name: 'Re', sound: require('@/assets/sounds/re.wav') },
-      'D': { name: 'Mi', sound: require('@/assets/sounds/mi.wav') },
-      'F': { name: 'Fa', sound: require('@/assets/sounds/fa.wav') },
-      'G': { name: 'So', sound: require('@/assets/sounds/so.wav') },
-      'H': { name: 'La', sound: require('@/assets/sounds/la.wav') },
-    };
+    const keyStore = useKeyStore();
+    const keyMap = keyStore.keyMap;
 
     const convertToUpperCase = (event) => {
       const input = event.target.value.toUpperCase();
