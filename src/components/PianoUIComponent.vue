@@ -7,15 +7,22 @@
 </template>
   
 <script>
-import { onMounted, onUnmounted } from 'vue';
+import { computed, onMounted, onUnmounted } from 'vue';
 import { useKeyStore } from '@/stores/key';
 
 export default {
   name: 'PianoUIComponent',
   setup() {
     const keyStore = useKeyStore();
-    const keys = keyStore.keys;
+    // const keys = keyStore.keys;
     const keyMap = keyStore.keyMap;
+    const keys = computed(() => {
+      return Object.entries(keyStore.keyMap).map(([key, value]) => ({
+        key,
+        name: value.name,
+        sound: value.sound
+      }));
+    });
 
     const playKey = (key) => {
       const audio = new Audio(key.sound);
