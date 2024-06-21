@@ -15,6 +15,7 @@ export default {
   setup() {
     const keyStore = useKeyStore();
     const keys = keyStore.keys;
+    const keyMap = keyStore.keyMap;
 
     const playKey = (key) => {
       const audio = new Audio(key.sound);
@@ -22,9 +23,9 @@ export default {
     }
 
     const handleKeyPress = (event) => {
-      const key = keys.find(k => k.key.toLowerCase() === event.key.toLowerCase())
-      if (key) {
-        playKey(key);
+      const key = event.key.toUpperCase();
+      if (keyMap[key]) {
+        playKey(keyMap[key])
       }
     }
 
