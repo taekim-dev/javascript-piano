@@ -9,15 +9,19 @@ export const useAudioStore = defineStore('audio', {
 
     actions: {
         saveAudio() {
-
+            localStorage.setItem('savedAudios', JSON.stringify(this.savedAudios));
         },
 
         clearAudios() {
-
+            this.savedAudios = [];
+            localStorage.removeItem('savedAudios');
         },
 
         loadSavedAudios() {
-
+            const savedAudiosFromStorage = localStorage.getItem('savedAudios');
+            if (savedAudiosFromStorage) {
+                this.savedAudios = JSON.parse(savedAudiosFromStorage);
+            }
         },
 
         playNotes (){
