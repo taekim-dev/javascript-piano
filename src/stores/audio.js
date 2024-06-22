@@ -16,8 +16,9 @@ export const useAudioStore = defineStore('audio', {
           localStorage.setItem('savedAudios', JSON.stringify(this.savedAudios));
         },
         clearAudios() {
-          this.savedAudios = [];
+          this.savedAudios = []; // This doesn't do anything
           localStorage.removeItem('savedAudios');
+          console.log('clearAudios called, savedAudios:', this.savedAudios);
         },
         loadSavedAudios() {
           const savedAudiosFromStorage = localStorage.getItem('savedAudios');

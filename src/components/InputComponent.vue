@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import { playNotes } from './utils/soundPlayer';
 import { useKeyStore } from '@/stores/key';
 import { useAudioStore } from '@/stores/audio';
@@ -58,19 +58,16 @@ export default {
       const notes = savedAudioInput.input.split('');
       playNotes(notes, keyMap, playingAudios);
     }
+
     const saveSounds = () => {
       const title = prompt('Name the Song');
       if (title) {
         const input = userInput.value;
-        const keys = extractKeys(input, keyMap)
-        saveAudio(title, input, keys)
+        const keys = extractKeys(input, keyMap);
+        saveAudio(title, input, keys);
         userInput.value = '';
       }
     }
-
-    const formatAudio = (audio) => {
-      return audio.split('').join(' ');
-    };
 
     const extractKeys = (input, keyMap) => {
       if (!input || typeof input !== 'string') {
@@ -80,6 +77,9 @@ export default {
     }
 
     const hasSavedAudios = computed(() => savedAudios.length > 0);
+    watch(savedAudios, (newVal, oldVal) => {
+      console.log('savedAudios changed:', newVal, oldVal);
+    }, { deep: true });
 
     onMounted(() => {
       loadSavedAudios();
@@ -93,7 +93,6 @@ export default {
       saveSounds,
       clearAudios,
       savedAudios,
-      formatAudio,
       hasSavedAudios
     };
   }
