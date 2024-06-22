@@ -30,7 +30,7 @@ export default {
     const keyStore = useKeyStore();
     const audioStore = useAudioStore();
     
-    const { clearAudios } = audioStore;
+    const { saveAudio, clearAudios } = audioStore;
 
     const userInput = ref('');
     const playingAudios = ref([]);
@@ -71,7 +71,7 @@ export default {
         }
         const newSavedAudios = [...savedAudios.value, { title, input, keys }];
         savedAudios.value = newSavedAudios;
-        localStorage.setItem('savedAudios', JSON.stringify(newSavedAudios));
+        saveAudio(title, input, keys)
         userInput.value = '';
       }
     }
