@@ -22,16 +22,18 @@
 import { ref, onMounted, computed } from 'vue';
 import { playNotes } from './utils/soundPlayer';
 import { useKeyStore } from '@/stores/key';
+import { useAudioStore } from '@/stores/audio';
 
 export default {
   name: 'InputComponent',
   setup() {
+    const keyStore = useKeyStore();
+    const audioStore = useAudioStore();
+
     const userInput = ref('');
     const playingAudios = ref([]);
     const savedAudios = ref([]);
-    const SAVE_LIMIT = 10;
-
-    const keyStore = useKeyStore();
+    const SAVE_LIMIT = audioStore.SAVE_LIMIT;
     const keyMap = keyStore.keyMap;
 
     const convertToUpperCase = (event) => {

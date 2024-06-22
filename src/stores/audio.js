@@ -8,27 +8,22 @@ export const useAudioStore = defineStore('audio', {
     }),
 
     actions: {
-        saveAudio() {
-            localStorage.setItem('savedAudios', JSON.stringify(this.savedAudios));
+        saveAudio(title, input, keys) {
+          if (this.savedAudios.length >= this.SAVE_LIMIT) {
+            this.savedAudios.shift();
+          }
+          this.savedAudios.push({ title, input, keys });
+          localStorage.setItem('savedAudios', JSON.stringify(this.savedAudios));
         },
-
         clearAudios() {
-            this.savedAudios = [];
-            localStorage.removeItem('savedAudios');
+          this.savedAudios = [];
+          localStorage.removeItem('savedAudios');
         },
-
         loadSavedAudios() {
-            const savedAudiosFromStorage = localStorage.getItem('savedAudios');
-            if (savedAudiosFromStorage) {
-                this.savedAudios = JSON.parse(savedAudiosFromStorage);
-            }
+          const savedAudiosFromStorage = localStorage.getItem('savedAudios');
+          if (savedAudiosFromStorage) {
+            this.savedAudios = JSON.parse(savedAudiosFromStorage);
+          }
         },
-
-        playNotes (){
-
-        }
-
     }
-
-
 });
