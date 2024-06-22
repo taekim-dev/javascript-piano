@@ -6,16 +6,15 @@
 </template>
 
 <script>
-import InputComponent from './components/InputComponent.vue';
-import PianoUIComponent from './components/PianoUIComponent.vue';
-
+import InputComponent from './components/InputComponent.vue'
+import PianoUIComponent from './components/PianoUIComponent.vue'
 
 export default {
   name: 'App',
   components: {
     PianoUIComponent,
-    InputComponent
-  }
+    InputComponent,
+  },
 }
 </script>
 
