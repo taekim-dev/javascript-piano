@@ -7,7 +7,7 @@
     </div>
   </div>
   <div class="save-component">
-    <div v-for="(item, index) in savedAudios" :key="index" class="save-component__item">
+    <div v-for="(item, index) in audioStore.savedAudios" :key="index" class="save-component__item">
       <div class="save-component__title">{{ item.title }}</div>
       <div class="save-component__audio">{{ item.keys }}</div>
       <button class="save-component__button save-component__button--play" @click="playSavedSound(index)">▶️</button>
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { ref, onMounted, computed, watch } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { playNotes } from './utils/soundPlayer';
 import { useKeyStore } from '@/stores/key';
 import { useAudioStore } from '@/stores/audio';
@@ -30,7 +30,7 @@ export default {
     const keyStore = useKeyStore();
     const audioStore = useAudioStore();
     
-    const { savedAudios, playingAudios, saveAudio, clearAudios, loadSavedAudios } = audioStore;
+    const { playingAudios, saveAudio, clearAudios, loadSavedAudios } = audioStore;
 
     const userInput = ref('');
     const keyMap = keyStore.keyMap;
@@ -54,7 +54,7 @@ export default {
     };
 
     const playSavedSound = (index) => {
-      const savedAudioInput = savedAudios[index];
+      const savedAudioInput = audioStore.savedAudios[index];
       const notes = savedAudioInput.input.split('');
       playNotes(notes, keyMap, playingAudios);
     }
@@ -76,10 +76,7 @@ export default {
       return input.split('').map(char => keyMap[char] ? keyMap[char].name : '').join(' ');
     }
 
-    const hasSavedAudios = computed(() => savedAudios.length > 0);
-    watch(savedAudios, (newVal, oldVal) => {
-      console.log('savedAudios changed:', newVal, oldVal);
-    }, { deep: true });
+    const hasSavedAudios = computed(() => audioStore.savedAudios.length > 0);
 
     onMounted(() => {
       loadSavedAudios();
@@ -92,7 +89,7 @@ export default {
       playSavedSound,
       saveSounds,
       clearAudios,
-      savedAudios,
+      audioStore,
       hasSavedAudios
     };
   }
