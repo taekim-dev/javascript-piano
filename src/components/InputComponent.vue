@@ -13,7 +13,7 @@
       <button class="save-component__button save-component__button--play" @click="playSavedSound(index)">▶️</button>
     </div>
     <div v-if="hasSavedAudios">
-      <button class="save-component__button save-component__button--clear" @click="clearSounds">Clear</button>
+      <button class="save-component__button save-component__button--clear" @click="clearAudios">Clear</button>
     </div>
   </div>
 </template>
@@ -29,6 +29,8 @@ export default {
   setup() {
     const keyStore = useKeyStore();
     const audioStore = useAudioStore();
+    
+    const { clearAudios } = audioStore;
 
     const userInput = ref('');
     const playingAudios = ref([]);
@@ -74,10 +76,10 @@ export default {
       }
     }
 
-    const clearSounds = () => {
-      localStorage.removeItem('savedAudios')
-      savedAudios.value = [];
-    }
+    // const clearSounds = () => {
+    //   localStorage.removeItem('savedAudios')
+    //   savedAudios.value = [];
+    // }
 
     const formatAudio = (audio) => {
       return audio.split('').join(' ');
@@ -105,7 +107,7 @@ export default {
       playInput,
       playSavedSound,
       saveSounds,
-      clearSounds,
+      clearAudios,
       savedAudios,
       formatAudio,
       hasSavedAudios
