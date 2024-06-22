@@ -13,7 +13,7 @@
       <button class="save-component__button save-component__button--play" @click="playSavedSound(index)">▶️</button>
     </div>
     <div v-if="hasSavedAudios">
-      <button class="save-component__button save-component__button--clear" @click="clearAudios">Clear</button>
+      <button class="save-component__button save-component__button--clear" @click="audioStore.clearAudios">Clear</button>
     </div>
   </div>
 </template>
@@ -29,8 +29,6 @@ export default {
   setup() {
     const keyStore = useKeyStore();
     const audioStore = useAudioStore();
-    
-    const { playingAudios, saveAudio, clearAudios, loadSavedAudios } = audioStore;
 
     const userInput = ref('');
     const keyMap = keyStore.keyMap;
@@ -50,13 +48,13 @@ export default {
 
     const playInput = (input) => {
       const notes = input.split('');
-      playNotes(notes, keyMap, playingAudios);
+      playNotes(notes, keyMap, audioStore.playingAudios);
     };
 
     const playSavedSound = (index) => {
       const savedAudioInput = audioStore.savedAudios[index];
       const notes = savedAudioInput.input.split('');
-      playNotes(notes, keyMap, playingAudios);
+      playNotes(notes, keyMap, audioStore.playingAudios);
     }
 
     const saveSounds = () => {
@@ -64,7 +62,7 @@ export default {
       if (title) {
         const input = userInput.value;
         const keys = extractKeys(input, keyMap);
-        saveAudio(title, input, keys);
+        audioStore.saveAudio(title, input, keys);
         userInput.value = '';
       }
     }
@@ -79,7 +77,7 @@ export default {
     const hasSavedAudios = computed(() => audioStore.savedAudios.length > 0);
 
     onMounted(() => {
-      loadSavedAudios();
+      audioStore.loadSavedAudios();
     });
 
     return {
@@ -88,7 +86,6 @@ export default {
       playInput,
       playSavedSound,
       saveSounds,
-      clearAudios,
       audioStore,
       hasSavedAudios
     };
