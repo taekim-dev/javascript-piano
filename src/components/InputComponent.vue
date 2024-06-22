@@ -30,12 +30,9 @@ export default {
     const keyStore = useKeyStore();
     const audioStore = useAudioStore();
     
-    const { saveAudio, clearAudios, loadSavedAudios } = audioStore;
+    const { savedAudios, playingAudios, saveAudio, clearAudios, loadSavedAudios } = audioStore;
 
     const userInput = ref('');
-    const playingAudios = ref([]);
-    const savedAudios = ref([]);
-    const SAVE_LIMIT = audioStore.SAVE_LIMIT;
     const keyMap = keyStore.keyMap;
 
     const convertToUpperCase = (event) => {
@@ -53,24 +50,19 @@ export default {
 
     const playInput = (input) => {
       const notes = input.split('');
-      playNotes(notes, keyMap, playingAudios.value);
+      playNotes(notes, keyMap, playingAudios);
     };
 
     const playSavedSound = (index) => {
-      const savedAudioInput = savedAudios.value[index];
+      const savedAudioInput = savedAudios[index];
       const notes = savedAudioInput.input.split('');
-      playNotes(notes, keyMap, playingAudios.value);
+      playNotes(notes, keyMap, playingAudios);
     }
     const saveSounds = () => {
       const title = prompt('Name the Song');
       if (title) {
         const input = userInput.value;
         const keys = extractKeys(input, keyMap)
-        if (savedAudios.value.length >= SAVE_LIMIT) {
-          savedAudios.value.shift()
-        }
-        const newSavedAudios = [...savedAudios.value, { title, input, keys }];
-        savedAudios.value = newSavedAudios;
         saveAudio(title, input, keys)
         userInput.value = '';
       }
@@ -87,14 +79,10 @@ export default {
       return input.split('').map(char => keyMap[char] ? keyMap[char].name : '').join(' ');
     }
 
-    const hasSavedAudios = computed(() => savedAudios.value.length > 0);
+    const hasSavedAudios = computed(() => savedAudios.length > 0);
 
     onMounted(() => {
       loadSavedAudios();
-      const savedAudiosFromStorage = localStorage.getItem('savedAudios');
-      if (savedAudiosFromStorage) {
-        savedAudios.value = JSON.parse(savedAudiosFromStorage);
-      }
     });
 
     return {
