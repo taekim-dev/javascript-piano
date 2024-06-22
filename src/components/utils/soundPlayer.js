@@ -13,6 +13,8 @@ export const playNotes = (notes, keyMap, playingAudios) => {
           }
         }, currentDelay);
         currentDelay += 500;
+      } else {
+        console.warn(`Invalid key: ${char}`);
       }
     });
 };

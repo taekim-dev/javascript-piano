@@ -14,7 +14,6 @@ export default {
   name: 'PianoUIComponent',
   setup() {
     const keyStore = useKeyStore();
-    const keyMap = keyStore.keyMap;
     const notes = computed(() => {
       return Object.entries(keyStore.keyMap).map(([key, value]) => ({
         key,
@@ -30,8 +29,8 @@ export default {
 
     const handleKeyPress = (event) => {
       const key = event.key.toUpperCase();
-      if (keyMap[key]) {
-        playKey(keyMap[key])
+      if (keyStore.keyMap[key]) {
+        playKey(keyStore.keyMap[key])
       }
     }
 
