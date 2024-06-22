@@ -30,7 +30,7 @@ export default {
     const keyStore = useKeyStore();
     const audioStore = useAudioStore();
     
-    const { saveAudio, clearAudios } = audioStore;
+    const { saveAudio, clearAudios, loadSavedAudios } = audioStore;
 
     const userInput = ref('');
     const playingAudios = ref([]);
@@ -76,11 +76,6 @@ export default {
       }
     }
 
-    // const clearSounds = () => {
-    //   localStorage.removeItem('savedAudios')
-    //   savedAudios.value = [];
-    // }
-
     const formatAudio = (audio) => {
       return audio.split('').join(' ');
     };
@@ -95,6 +90,7 @@ export default {
     const hasSavedAudios = computed(() => savedAudios.value.length > 0);
 
     onMounted(() => {
+      loadSavedAudios();
       const savedAudiosFromStorage = localStorage.getItem('savedAudios');
       if (savedAudiosFromStorage) {
         savedAudios.value = JSON.parse(savedAudiosFromStorage);
